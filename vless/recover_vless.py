@@ -42,7 +42,7 @@ default_restore_command = "./keeponline.sh"
 
 # 遍历服务器列表并执行恢复操作
 for server in servers:
-    host = server.get('host',server['hostname'])
+    host = server['hostname']
     port = server.get('port', 22)
     username = server['username']
     password = server['password']
