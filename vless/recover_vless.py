@@ -42,7 +42,7 @@ default_restore_command = "bash <(curl -sSL "https://raw.githubusercontent.com/g
 
 # 遍历服务器列表并执行恢复操作
 for server in servers:
-    host = server['host']
+    host = server.get('host',server['hostname'])
     port = server.get('port', 22)
     username = server['username']
     password = server['password']
