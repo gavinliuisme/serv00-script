@@ -1,4 +1,5 @@
 pm2_path=$(which /home/$USER/.npm-global/bin/pm2)
+host=$(echo $(hostname) | grep -q "serv00" && echo "serv00.net" || echo "ct8.pl")
 
 process_count=$($pm2_path list | grep "vless" | wc -l)
 if [ "$process_count" -gt 1 ]; then
@@ -16,12 +17,8 @@ if [ "$status" == "" ]; then
         $pm2_path  resurrect
         echo "还原vless进程"
     else
-        if [[ -f /home/$USER/domains/$USER.serv00.net/vless/app.js ]]; then
-            $pm2_path start /home/$USER/domains/$USER.serv00.net/vless/app.js --name vless
-            $pm2_path save
-        fi
-        if [[ -f /home/$USER/domains/$USER.ct8.pl/vless/app.js ]]; then
-            $pm2_path start /home/$USER/domains/$USER.ct8.pl/vless/app.js --name vless
+        if [[ -f /home/$USER/domains/$USER.$host/vless/app.js ]]; then
+            $pm2_path start /home/$USER/domains/$USER.$host/vless/app.js --name vless
             $pm2_path save
         fi
         echo "未检测到pm2 vless快照，启动vless进程...,并保存快照"
