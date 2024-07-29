@@ -13,15 +13,13 @@ if [ "$process_count" -gt 1 ]; then
 fi
 status=$($pm2_path  info vless | grep "status" | awk '{print $4}')
 if [ "$status" == "" ]; then
-    if [[ -f /home/$USER/.pm2/dump.pm2 ]]; then
-        $pm2_path  resurrect
-        echo "还原vless进程"
-    else
-        if [[ -f /home/$USER/domains/$USER.$host/vless/app.js ]]; then
-            $pm2_path start /home/$USER/domains/$USER.$host/vless/app.js --name vless
-            $pm2_path save
-        fi
-        echo "未检测到pm2 vless快照，启动vless进程...,并保存快照"
+    $pm2_path  resurrect
+    echo "还原vless进程"    
+    status=$($pm2_path  info vless | grep "status" | awk '{print $4}')    
+    if [ "$status" == "" ]; then
+        $pm2_path start /home/$USER/domains/$USER.$host/vless/app.js --name vless
+        $pm2_path save
+        echo "pm2快照中没有vless，重新启动"
     fi
 elif [ "$status" != "online" ]; then
     $pm2_path  restart vless
