@@ -63,5 +63,5 @@ for server in servers:
 # 发送汇总消息到 Telegram
 
 print(summary_message)
-if len(error_message) > 0
+if len(error_message) > 0 :
     send_telegram_message(telegram_token, telegram_chat_id, summary_message)
