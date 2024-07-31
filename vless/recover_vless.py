@@ -36,6 +36,7 @@ except json.JSONDecodeError:
 
 # 初始化汇总消息
 summary_message = "serv00-vless 恢复操作结果：\n"
+error_message = ""
 
 # 默认恢复命令
 default_restore_command = "bash <(curl -sSL https://raw.githubusercontent.com/gavinliuisme/serv00-script/main/vless/keeponline.sh)"
@@ -57,8 +58,10 @@ for server in servers:
         summary_message += f"\n成功恢复 {host} 上的 vless 服务：\n{output.decode('utf-8')}"
     except subprocess.CalledProcessError as e:
         summary_message += f"\n无法恢复 {host} 上的 vless 服务：\n{e.output.decode('utf-8')}"
+        error_message += f"\n无法恢复 {host} 上的 vless 服务：\n{e.output.decode('utf-8')}"
 
 # 发送汇总消息到 Telegram
 
 print(summary_message)
-send_telegram_message(telegram_token, telegram_chat_id, summary_message)
+if len(error_message) > 0
+    send_telegram_message(telegram_token, telegram_chat_id, summary_message)
